@@ -1,18 +1,10 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Cours\\B1\\Q2\\winFormTestSauron\\",
+  "WorkspaceRootPath": "C:\\Users\\Sylvain\\source\\repos\\winFormTestSauron\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4E9D4B21-CBEC-4190-7FCE-1CC6E6CBC8EC}|winFormTestSauron.csproj|c:\\cours\\b1\\q2\\winformtestsauron\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{4E9D4B21-CBEC-4190-7FCE-1CC6E6CBC8EC}|winFormTestSauron.csproj|c:\\users\\sylvain\\source\\repos\\winformtestsauron\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{4E9D4B21-CBEC-4190-7FCE-1CC6E6CBC8EC}|winFormTestSauron.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E9D4B21-CBEC-4190-7FCE-1CC6E6CBC8EC}|winFormTestSauron.csproj|c:\\cours\\b1\\q2\\winformtestsauron\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4E9D4B21-CBEC-4190-7FCE-1CC6E6CBC8EC}|winFormTestSauron.csproj|solutionrelative:form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4E9D4B21-CBEC-4190-7FCE-1CC6E6CBC8EC}|winFormTestSauron.csproj|c:\\cours\\b1\\q2\\winformtestsauron\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{4E9D4B21-CBEC-4190-7FCE-1CC6E6CBC8EC}|winFormTestSauron.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,6 +16,10 @@
           "DockedWidth": 200,
           "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{40ea2e6b-2121-4bb8-a43e-c83c04b51041}"
@@ -42,41 +38,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Form1.Designer.cs",
-              "DocumentMoniker": "C:\\Cours\\B1\\Q2\\winFormTestSauron\\Form1.Designer.cs",
-              "RelativeDocumentMoniker": "Form1.Designer.cs",
-              "ToolTip": "C:\\Cours\\B1\\Q2\\winFormTestSauron\\Form1.Designer.cs",
-              "RelativeToolTip": "Form1.Designer.cs",
-              "ViewState": "AgIAAFUAAAAAAAAAAAAewC0AAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-15T10:01:26.501Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Form1.cs",
-              "DocumentMoniker": "C:\\Cours\\B1\\Q2\\winFormTestSauron\\Form1.cs",
+              "DocumentMoniker": "C:\\Users\\Sylvain\\source\\repos\\winFormTestSauron\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Cours\\B1\\Q2\\winFormTestSauron\\Form1.cs",
+              "ToolTip": "C:\\Users\\Sylvain\\source\\repos\\winFormTestSauron\\Form1.cs",
               "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAAEAAAAAAAAAAAAAMwFEAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAADoAAAAAAAAAAAAwwFAAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-14T14:35:35.171Z",
+              "WhenOpened": "2026-04-17T10:14:10.48Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Form1.cs [Conception]",
-              "DocumentMoniker": "C:\\Cours\\B1\\Q2\\winFormTestSauron\\Form1.cs",
-              "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Cours\\B1\\Q2\\winFormTestSauron\\Form1.cs [Conception]",
-              "RelativeToolTip": "Form1.cs [Conception]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-15T09:08:44.691Z",
-              "EditorCaption": " [Conception]"
             }
           ]
         }

@@ -66,9 +66,22 @@ namespace winFormTestSauron
             DirectoryInfo info = new DirectoryInfo(path);
             DirectoryInfo[] dir = { };
 
-            if (info != null)
+            try
             {
-                dir = info.GetDirectories();
+                if (info != null)
+                {
+                    dir = info.GetDirectories();
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // On ignore le dossier si l'accès est refusé
+                dir = new DirectoryInfo[0];
+            }
+            catch (Exception ex)
+            {
+                // Pour gérer d'autres erreurs éventuelles
+                Console.WriteLine("Erreur : " + ex.Message);
             }
 
             foreach (DirectoryInfo directory in dir)
