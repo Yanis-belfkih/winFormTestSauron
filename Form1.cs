@@ -35,26 +35,73 @@ namespace winFormTestSauron
         }
         public void ShowFileNames()
         {
+            // 1. Vérification de sécurité pour le nœud sélectionné
+            if (treeView1.SelectedNode == null) return;
+
             DirectoryInfo info = new DirectoryInfo(treeView1.SelectedNode.FullPath);
-            FileInfo[] Files = { };
-            ListViewItem item;
+            FileInfo[] Files = null; // Initialisé à null
 
             listView1.Items.Clear();
 
-            if (info != null)
+            try
             {
-                Files = info.GetFiles();
+                // 2. On tente de récupérer les fichiers
+                if (info.Exists)
+                {
+                    Files = info.GetFiles();
+                }
+            }
+            catch (UnauthorizedAccessException)
+            {
+                // Si l'accès est refusé, on affiche un message ou on laisse la liste vide
+                MessageBox.Show("Accès refusé à ce dossier.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur : " + ex.Message);
+                return;
             }
 
-            listView1.BeginUpdate();
-            foreach (FileInfo file in Files)
+            // 3. Remplissage de la ListView
+            if (Files != null)
             {
-                item = new ListViewItem(file.Name);
-                listView1.Items.Add(item);
+                listView1.BeginUpdate();
+                foreach (FileInfo file in Files)
+                {
+                    // Colonne 1 : Le nom
+                    ListViewItem item = new ListViewItem(file.Name);
 
+                    // Colonne 2 : La taille (convertie en KB pour plus de lisibilité)
+                    long sizeInKb = file.Length / 1024;
+
+                    long modularsize;
+
+                    if (sizeInKb < 1000)
+                    {
+                        modularsize = sizeInKb;
+                        item.SubItems.Add(modularsize.ToString() + " KB");
+                    }
+                    else if (sizeInKb < 1000)
+                    {
+                        modularsize = sizeInKb / 1000;
+                        item.SubItems.Add(modularsize.ToString() + " MB");
+                    }
+                    else if (sizeInKb < 1000000) 
+                    {
+                        modularsize = sizeInKb / 1000;
+                        item.SubItems.Add(modularsize.ToString() + " GB");
+                    }
+                        // Colonne 3 : La date
+                        item.SubItems.Add(file.LastWriteTime.ToShortDateString());
+
+                    // Colonne 4 : extension
+                    item.SubItems.Add(file.Extension);
+
+                    listView1.Items.Add(item);
+                }
+                listView1.EndUpdate();
             }
-            listView1.EndUpdate();
-
         }
 
         public void AddDirs(TreeNode tree)
@@ -94,7 +141,7 @@ namespace winFormTestSauron
         {
             treeView1.BeginUpdate();
 
-            foreach(TreeNode tree in e.Node.Nodes)
+            foreach (TreeNode tree in e.Node.Nodes)
             {
                 AddDirs(tree);
             }
