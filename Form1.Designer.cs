@@ -46,7 +46,6 @@
             treeView1.TabIndex = 0;
             treeView1.BeforeExpand += treeView1_BeforeExpand;
             treeView1.NodeMouseClick += treeView1_NodeMouseClick;
-            treeView1.Enter += Form1_Load;
             // 
             // listView1
             // 

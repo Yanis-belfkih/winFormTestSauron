@@ -6,12 +6,10 @@ namespace winFormTestSauron
         public Form1()
         {
             InitializeComponent();
-
         }
 
         public void Form1_Load(object sender, EventArgs e)
         {
-
             ShowDisk();
         }
 
