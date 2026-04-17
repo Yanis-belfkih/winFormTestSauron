@@ -33,9 +33,10 @@ namespace winFormTestSauron
             }
             treeView1.EndUpdate();
         }
+
         public void ShowFileNames()
         {
-            // 1. Vérification de sécurité pour le nœud sélectionné
+            // 1. Vérification de sécurité pour le noeud sélectionné
             if (treeView1.SelectedNode == null) return;
 
             DirectoryInfo info = new DirectoryInfo(treeView1.SelectedNode.FullPath);
@@ -74,26 +75,26 @@ namespace winFormTestSauron
 
                     // Colonne 2 : La taille (convertie en KB pour plus de lisibilité)
                     long sizeInKb = file.Length / 1024;
+                    double modularsize;
 
-                    long modularsize;
-
-                    if (sizeInKb < 1000)
+                    if (sizeInKb <= 1000)
                     {
                         modularsize = sizeInKb;
                         item.SubItems.Add(modularsize.ToString() + " KB");
                     }
-                    else if (sizeInKb < 1000)
+                    else if (sizeInKb >= 1000)
                     {
                         modularsize = sizeInKb / 1000;
                         item.SubItems.Add(modularsize.ToString() + " MB");
                     }
-                    else if (sizeInKb < 1000000) 
+                    else if (sizeInKb >= 1000000) 
                     {
-                        modularsize = sizeInKb / 1000;
+                        modularsize = sizeInKb / 1000000;
                         item.SubItems.Add(modularsize.ToString() + " GB");
                     }
-                        // Colonne 3 : La date
-                        item.SubItems.Add(file.LastWriteTime.ToShortDateString());
+
+                    // Colonne 3 : La date
+                    item.SubItems.Add(file.LastWriteTime.ToShortDateString());
 
                     // Colonne 4 : extension
                     item.SubItems.Add(file.Extension);
