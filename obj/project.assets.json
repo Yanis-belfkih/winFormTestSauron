@@ -8,23 +8,23 @@
     "net10.0-windows7.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Sylvain\\.nuget\\packages\\": {},
+    "C:\\Users\\Sylva\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Sylvain\\source\\repos\\winFormTestSauron\\winFormTestSauron.csproj",
+      "projectUniqueName": "C:\\Users\\Sylva\\source\\repos\\Yanis-belfkih\\winFormTestSauron\\winFormTestSauron.csproj",
       "projectName": "winFormTestSauron",
-      "projectPath": "C:\\Users\\Sylvain\\source\\repos\\winFormTestSauron\\winFormTestSauron.csproj",
-      "packagesPath": "C:\\Users\\Sylvain\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Sylvain\\source\\repos\\winFormTestSauron\\obj\\",
+      "projectPath": "C:\\Users\\Sylva\\source\\repos\\Yanis-belfkih\\winFormTestSauron\\winFormTestSauron.csproj",
+      "packagesPath": "C:\\Users\\Sylva\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Sylva\\source\\repos\\Yanis-belfkih\\winFormTestSauron\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Sylvain\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Sylva\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

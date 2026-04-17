@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("winFormTestSauron")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6a75267d34d8c13133eda8bf4ab3cf0e177a71fb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6793aeb0df4ffdcf08defffacfa619e1dfecc3e7")]
 [assembly: System.Reflection.AssemblyProductAttribute("winFormTestSauron")]
 [assembly: System.Reflection.AssemblyTitleAttribute("winFormTestSauron")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
