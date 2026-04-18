@@ -1,0 +1,13 @@
+# Dossiers de compilation générés automatiquement
+bin/
+obj/
+
+# Fichiers de configuration utilisateur et cache Visual Studio/IDE
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Fichiers temporaires ou locaux
+*.log
