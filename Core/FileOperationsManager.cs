@@ -1,10 +1,11 @@
+using System.Diagnostics;
 
 namespace winFormTestSauron.Core
 {
     public class FileOperationsManager
     {
         // Cette Class sert a gérer toute les opérations sur les dossier/Fichiers
-        public string[] ShowDisk()
+        public string[] GetDisk()
         {
             return Directory.GetLogicalDrives();
         }
@@ -76,9 +77,51 @@ namespace winFormTestSauron.Core
             }
         }
 
-        public void OpenFile()
+        public void OpenFile(string filePath)
         {
-            
+            // UseShellExecute = true ca permet a windows d'ouvrir le fichier en fonction de l'extention du fichier
+            Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+        }
+
+        public bool RenameFile(string OldPath, string NewName)
+        {
+            try
+            {
+                string ParentDir = Path.GetDirectoryName(OldPath);
+                string NewPath = Path.Combine(ParentDir, NewName);
+                File.Move(OldPath, NewPath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteFile(string path)
+        {
+            try
+            {
+                File.Delete(path);
+                return true;
+            }
+            catch(Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public bool CreateFile(string path)
+        {
+            try
+            {
+                File.Create(path).Close();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

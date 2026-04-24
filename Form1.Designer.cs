@@ -28,13 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             treeView1 = new TreeView();
             listView1 = new ListView();
             columnHeader1 = new ColumnHeader();
-            splitter1 = new Splitter();
             columnHeader2 = new ColumnHeader();
             columnHeader3 = new ColumnHeader();
             columnHeader4 = new ColumnHeader();
+            contextMenuStrip1 = new ContextMenuStrip(components);
+            Open = new ToolStripMenuItem();
+            Rename = new ToolStripMenuItem();
+            Delete = new ToolStripMenuItem();
+            create = new ToolStripMenuItem();
+            splitter1 = new Splitter();
+            refreshButton = new Button();
+            contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // treeView1
@@ -50,18 +58,73 @@
             // listView1
             // 
             listView1.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4 });
+            listView1.ContextMenuStrip = contextMenuStrip1;
             listView1.Dock = DockStyle.Fill;
+            listView1.LabelEdit = true;
             listView1.Location = new Point(420, 0);
             listView1.Name = "listView1";
             listView1.Size = new Size(1462, 966);
             listView1.TabIndex = 1;
             listView1.UseCompatibleStateImageBehavior = false;
             listView1.View = View.Details;
+            listView1.AfterLabelEdit += listView1_AfterLabelEdit;
+            listView1.MouseClick += listView1_MouseClick;
+            listView1.MouseDoubleClick += listView1_MouseDoubleClick;
             // 
             // columnHeader1
             // 
             columnHeader1.Text = "File Name";
-            columnHeader1.Width = 200;
+            columnHeader1.Width = 500;
+            // 
+            // columnHeader2
+            // 
+            columnHeader2.Text = "Size";
+            columnHeader2.Width = 200;
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Last-edit";
+            columnHeader3.Width = 200;
+            // 
+            // columnHeader4
+            // 
+            columnHeader4.Text = "extentions";
+            columnHeader4.Width = 200;
+            // 
+            // contextMenuStrip1
+            // 
+            contextMenuStrip1.ImageScalingSize = new Size(32, 32);
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { Open, Rename, Delete, create });
+            contextMenuStrip1.Name = "contextMenuStrip1";
+            contextMenuStrip1.Size = new Size(175, 156);
+            // 
+            // Open
+            // 
+            Open.Name = "Open";
+            Open.Size = new Size(174, 38);
+            Open.Text = "Open";
+            Open.Click += Open_Click;
+            // 
+            // Rename
+            // 
+            Rename.Name = "Rename";
+            Rename.Size = new Size(174, 38);
+            Rename.Text = "Rename";
+            Rename.Click += Rename_Click;
+            // 
+            // Delete
+            // 
+            Delete.Name = "Delete";
+            Delete.Size = new Size(174, 38);
+            Delete.Text = "Delete";
+            Delete.Click += Delete_Click;
+            // 
+            // create
+            // 
+            create.Name = "create";
+            create.Size = new Size(174, 38);
+            create.Text = "Create ";
+            create.Click += create_Click;
             // 
             // splitter1
             // 
@@ -71,29 +134,29 @@
             splitter1.TabIndex = 2;
             splitter1.TabStop = false;
             // 
-            // columnHeader2
+            // refreshButton
             // 
-            columnHeader2.Text = "Size";
-            // 
-            // columnHeader3
-            // 
-            columnHeader3.Text = "Last-edit";
-            // 
-            // columnHeader4
-            // 
-            columnHeader4.Text = "extentions";
+            refreshButton.Location = new Point(1720, 12);
+            refreshButton.Name = "refreshButton";
+            refreshButton.Size = new Size(150, 46);
+            refreshButton.TabIndex = 3;
+            refreshButton.Text = "Refresh";
+            refreshButton.UseVisualStyleBackColor = true;
+            refreshButton.Click += refreshButton_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1882, 966);
+            Controls.Add(refreshButton);
             Controls.Add(splitter1);
             Controls.Add(listView1);
             Controls.Add(treeView1);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
+            contextMenuStrip1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -106,5 +169,11 @@
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
         private ColumnHeader columnHeader4;
+        private ContextMenuStrip contextMenuStrip1;
+        private ToolStripMenuItem Open;
+        private ToolStripMenuItem Rename;
+        private ToolStripMenuItem Delete;
+        private ToolStripMenuItem create;
+        private Button refreshButton;
     }
 }
