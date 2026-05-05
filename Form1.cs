@@ -10,19 +10,49 @@ namespace winFormTestSauron
         public Form1()
         {
             InitializeComponent();
+
+            //Baseline Theme would be Light
+            IThemeManager themeManager = new Theme(this);
+
+            themeManager.BackgroundColor = Color.FromArgb(236, 239, 244);
+            themeManager.SurfaceColor = Color.White;
+            themeManager.TextColor = Color.FromArgb(46, 52, 64);
+            themeManager.AccentColor = Color.FromArgb(136, 192, 208);
+            themeManager.FontName = "Segoe UI";
+
+            themeManager.ApplyTheme();
         }
+
         #region Show Folders/Files
+
+        private void AdjustColumnSizes()
+        {
+            int totalWidth = filesListView.ClientSize.Width;
+            if (totalWidth > 0)
+            {
+                //must have a total of 100%
+                filesListView.Columns[0].Width = (int)(totalWidth * 0.55); // File Name (50%)
+                filesListView.Columns[1].Width = (int)(totalWidth * 0.10); // Size (15%)
+                filesListView.Columns[2].Width = (int)(totalWidth * 0.20); // Last-edit (20%)
+                filesListView.Columns[3].Width = (int)(totalWidth * 0.15); // Extensions (15%)
+            }
+        }
+
+        private void listView1_Resize_1(object sender, EventArgs e)
+        {
+            AdjustColumnSizes();
+        }
 
         public void Form1_Load(object sender, EventArgs e)
         {
-            treeView1.BeginUpdate();
+            diskTreeView.BeginUpdate();
 
             string[] disks = FileOpManager.GetDisk();
 
             foreach (string a in disks)
             {
                 TreeNode _treeNode = new TreeNode(a);
-                treeView1.Nodes.Add(_treeNode);
+                diskTreeView.Nodes.Add(_treeNode);
                 DirectoryInfo[] dirs = FileOpManager.AddDirs(a);
 
                 foreach (DirectoryInfo directory in dirs)
@@ -32,17 +62,18 @@ namespace winFormTestSauron
 
                 }
             }
-            treeView1.EndUpdate();
+            diskTreeView.EndUpdate();
+            AdjustColumnSizes();
         }
 
         public void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            DirectoryInfo info = new DirectoryInfo(treeView1.SelectedNode.FullPath);
+            DirectoryInfo info = new DirectoryInfo(diskTreeView.SelectedNode.FullPath);
             FileInfo[] Files = { };
 
-            listView1.Items.Clear();
+            filesListView.Items.Clear();
 
-            if (treeView1.SelectedNode == null) return;
+            if (diskTreeView.SelectedNode == null) return;
 
             try
             {
@@ -55,9 +86,9 @@ namespace winFormTestSauron
             catch (Exception ex)
             {
                 MessageBox.Show("Erreur : " + ex.Message);
-            }  
+            }
 
-            listView1.BeginUpdate();
+            filesListView.BeginUpdate();
 
             foreach (FileInfo file in Files)
             {
@@ -69,14 +100,14 @@ namespace winFormTestSauron
                 item.SubItems.Add(file.LastWriteTime.ToShortDateString());
                 item.SubItems.Add(file.Extension);
 
-                listView1.Items.Add(item);
+                filesListView.Items.Add(item);
             }
-            listView1.EndUpdate();
+            filesListView.EndUpdate();
         }
-        
+
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
         {
-            treeView1.BeginUpdate();
+            diskTreeView.BeginUpdate();
 
             foreach (TreeNode tree in e.Node.Nodes)
             {
@@ -89,7 +120,7 @@ namespace winFormTestSauron
 
                 }
             }
-            treeView1.EndUpdate();
+            diskTreeView.EndUpdate();
         }
         #endregion
 
@@ -105,7 +136,7 @@ namespace winFormTestSauron
         {
             if (e.Button == MouseButtons.Right)
             {
-                ListViewItem ItemUnderMouse = listView1.GetItemAt(e.X, e.Y);
+                ListViewItem ItemUnderMouse = filesListView.GetItemAt(e.X, e.Y);
 
                 if (ItemUnderMouse != null)
                 {
@@ -118,7 +149,7 @@ namespace winFormTestSauron
         {
             try
             {
-                string path = Path.Combine(treeView1.SelectedNode.FullPath, listView1.SelectedItems[0].Text);
+                string path = Path.Combine(diskTreeView.SelectedNode.FullPath, filesListView.SelectedItems[0].Text);
                 Console.WriteLine(path);
                 FileOpManager.OpenFile(path);
 
@@ -134,17 +165,17 @@ namespace winFormTestSauron
         #region Rename Files
         private void Rename_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count > 0)
+            if (filesListView.SelectedItems.Count > 0)
             {
-                listView1.SelectedItems[0].BeginEdit();
+                filesListView.SelectedItems[0].BeginEdit();
             }
         }
         private void listView1_AfterLabelEdit(object sender, LabelEditEventArgs e)
         {
             try
             {
-                string CurrentPath = treeView1.SelectedNode.FullPath;
-                string OldName = listView1.SelectedItems[0].Text;
+                string CurrentPath = diskTreeView.SelectedNode.FullPath;
+                string OldName = filesListView.SelectedItems[0].Text;
                 string OldPath = Path.Combine(CurrentPath, OldName);
                 bool success = FileOpManager.RenameFile(OldPath, e.Label);
                 if (!success) e.CancelEdit = true;
@@ -165,13 +196,13 @@ namespace winFormTestSauron
                 // DialogBox de confirmation pour la suppression d'un fichier
                 DialogResult dialogResult = MessageBox.Show("Are you reaaally sure ?", "ANNIHILATION", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
-                if (listView1.SelectedItems.Count > 0 && DialogResult.Yes == dialogResult)
+                if (filesListView.SelectedItems.Count > 0 && DialogResult.Yes == dialogResult)
                 {
-                    string FileName = listView1.SelectedItems[0].Text;
-                    string path = treeView1.SelectedNode.FullPath;
+                    string FileName = filesListView.SelectedItems[0].Text;
+                    string path = diskTreeView.SelectedNode.FullPath;
                     string Filepath = Path.Combine(path, FileName);
                     bool success = FileOpManager.DeleteFile(Filepath);
-                    if (success) listView1.SelectedItems[0].Remove();
+                    if (success) filesListView.SelectedItems[0].Remove();
 
                 }
             }
@@ -188,7 +219,7 @@ namespace winFormTestSauron
             try
             {
                 string DefaultFileName = "New File.txt";
-                string path = Path.Combine(treeView1.SelectedNode.FullPath, DefaultFileName);
+                string path = Path.Combine(diskTreeView.SelectedNode.FullPath, DefaultFileName);
 
                 bool success = FileOpManager.CreateFile(path);
                 if (success)
@@ -199,7 +230,7 @@ namespace winFormTestSauron
                     NewFile.SubItems.Add(DateTime.Now.ToShortDateString());
                     NewFile.SubItems.Add(" .txt");
 
-                    listView1.Items.Add(NewFile);
+                    filesListView.Items.Add(NewFile);
 
                     NewFile.Selected = true;
                     NewFile.BeginEdit(); // pour lancer le renommage
@@ -215,10 +246,10 @@ namespace winFormTestSauron
         #region Refresh 
         private void refreshButton_Click(object sender, EventArgs e)
         {
-            DirectoryInfo info = new DirectoryInfo(treeView1.SelectedNode.FullPath);
+            DirectoryInfo info = new DirectoryInfo(diskTreeView.SelectedNode.FullPath);
             FileInfo[] Files = { };
 
-            listView1.Items.Clear();
+            filesListView.Items.Clear();
 
             try
             {
@@ -235,7 +266,7 @@ namespace winFormTestSauron
                 return;
             }
 
-            listView1.BeginUpdate();
+            filesListView.BeginUpdate();
 
             foreach (FileInfo file in Files)
             {
@@ -247,11 +278,86 @@ namespace winFormTestSauron
                 item.SubItems.Add(file.LastWriteTime.ToShortDateString());
                 item.SubItems.Add(file.Extension);
 
-                listView1.Items.Add(item);
+                filesListView.Items.Add(item);
             }
-            listView1.EndUpdate();
-            
+            filesListView.EndUpdate();
+
         }
         #endregion
+
+        #region Options
+        private void optionsButton_Click(object sender, EventArgs e) //WIP
+        {
+            contextMenuOptions.Show(optionsButton, new Point(0, optionsButton.Height));
+        }
+        #endregion Options
+
+        #region Themes
+        private void darkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IThemeManager themeManager = new Theme(this);
+
+            themeManager.BackgroundColor = Color.FromArgb(30, 30, 30);
+            themeManager.SurfaceColor = Color.FromArgb(45, 45, 48);
+            themeManager.TextColor = Color.WhiteSmoke;
+            themeManager.AccentColor = Color.SteelBlue;
+            themeManager.FontName = "Segoe UI";
+
+            themeManager.ApplyTheme();
+        }
+
+        private void lightToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IThemeManager themeManager = new Theme(this);
+
+            themeManager.BackgroundColor = Color.FromArgb(236, 239, 244);
+            themeManager.SurfaceColor = Color.White;
+            themeManager.TextColor = Color.FromArgb(46, 52, 64);
+            themeManager.AccentColor = Color.FromArgb(136, 192, 208);
+            themeManager.FontName = "Segoe UI";
+
+            themeManager.ApplyTheme();
+        }
+
+        private void cyberToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IThemeManager themeManager = new Theme(this);
+
+            themeManager.BackgroundColor = Color.FromArgb(10, 10, 15);
+            themeManager.SurfaceColor = Color.FromArgb(20, 20, 30);
+            themeManager.TextColor = Color.FromArgb(0, 255, 150);
+            themeManager.AccentColor = Color.MediumPurple;
+            themeManager.FontName = "Consolas";
+
+            themeManager.ApplyTheme();
+        }
+
+        private void forestToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IThemeManager themeManager = new Theme(this);
+
+            themeManager.BackgroundColor = Color.FromArgb(20, 25, 20);
+            themeManager.SurfaceColor = Color.FromArgb(35, 45, 35);
+            themeManager.TextColor = Color.FromArgb(210, 225, 200);
+            themeManager.AccentColor = Color.OrangeRed;
+            themeManager.FontName = "Trebuchet MS";
+
+            themeManager.ApplyTheme();
+        }
+
+        private void oceanToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IThemeManager themeManager = new Theme(this);
+
+            themeManager.BackgroundColor = Color.FromArgb(38, 50, 56);
+            themeManager.SurfaceColor = Color.FromArgb(55, 71, 79);
+            themeManager.TextColor = Color.White;
+            themeManager.AccentColor = Color.FromArgb(128, 203, 196);
+            themeManager.FontName = "Verdana";
+
+            themeManager.ApplyTheme();
+        }
+
+        #endregion Themes
     }
 }
