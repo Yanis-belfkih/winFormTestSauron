@@ -46,24 +46,32 @@
             optionsButton = new Button();
             contextMenuOptions = new ContextMenuStrip(components);
             pluginsToolStripMenuItem = new ToolStripMenuItem();
+            OpenAIPluginToolStripMenuItem = new ToolStripMenuItem();
             themeToolStripMenuItem = new ToolStripMenuItem();
             darkToolStripMenuItem = new ToolStripMenuItem();
             lightToolStripMenuItem = new ToolStripMenuItem();
             CyberToolStripMenuItem = new ToolStripMenuItem();
             forestToolStripMenuItem = new ToolStripMenuItem();
             oceanToolStripMenuItem = new ToolStripMenuItem();
+            panelChat = new Panel();
+            panelInput = new Panel();
+            txtConversation = new RichTextBox();
+            txtInput = new TextBox();
+            btnAgentAI = new Button();
             contextMenuStrip1.SuspendLayout();
             panel1.SuspendLayout();
             contextMenuOptions.SuspendLayout();
+            panelChat.SuspendLayout();
+            panelInput.SuspendLayout();
             SuspendLayout();
             // 
             // diskTreeView
             // 
             diskTreeView.Dock = DockStyle.Left;
-            diskTreeView.Location = new Point(0, 43);
-            diskTreeView.Margin = new Padding(2, 1, 2, 1);
+            diskTreeView.Location = new Point(0, 72);
+            diskTreeView.Margin = new Padding(3, 2, 3, 2);
             diskTreeView.Name = "diskTreeView";
-            diskTreeView.Size = new Size(193, 456);
+            diskTreeView.Size = new Size(274, 760);
             diskTreeView.TabIndex = 0;
             diskTreeView.BeforeExpand += treeView1_BeforeExpand;
             diskTreeView.NodeMouseClick += treeView1_NodeMouseClick;
@@ -74,10 +82,10 @@
             filesListView.ContextMenuStrip = contextMenuStrip1;
             filesListView.Dock = DockStyle.Fill;
             filesListView.LabelEdit = true;
-            filesListView.Location = new Point(193, 43);
-            filesListView.Margin = new Padding(2, 1, 2, 1);
+            filesListView.Location = new Point(274, 72);
+            filesListView.Margin = new Padding(3, 2, 3, 2);
             filesListView.Name = "filesListView";
-            filesListView.Size = new Size(831, 456);
+            filesListView.Size = new Size(1189, 760);
             filesListView.TabIndex = 1;
             filesListView.UseCompatibleStateImageBehavior = false;
             filesListView.View = View.Details;
@@ -111,43 +119,43 @@
             contextMenuStrip1.ImageScalingSize = new Size(32, 32);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { Open, Rename, Delete, create });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(118, 92);
+            contextMenuStrip1.Size = new Size(148, 132);
             // 
             // Open
             // 
             Open.Name = "Open";
-            Open.Size = new Size(117, 22);
+            Open.Size = new Size(147, 32);
             Open.Text = "Open";
             Open.Click += Open_Click;
             // 
             // Rename
             // 
             Rename.Name = "Rename";
-            Rename.Size = new Size(117, 22);
+            Rename.Size = new Size(147, 32);
             Rename.Text = "Rename";
             Rename.Click += Rename_Click;
             // 
             // Delete
             // 
             Delete.Name = "Delete";
-            Delete.Size = new Size(117, 22);
+            Delete.Size = new Size(147, 32);
             Delete.Text = "Delete";
             Delete.Click += Delete_Click;
             // 
             // create
             // 
             create.Name = "create";
-            create.Size = new Size(117, 22);
+            create.Size = new Size(147, 32);
             create.Text = "Create ";
             create.Click += create_Click;
             // 
             // refreshButton
             // 
             refreshButton.Dock = DockStyle.Right;
-            refreshButton.Location = new Point(943, 0);
-            refreshButton.Margin = new Padding(2, 1, 2, 1);
+            refreshButton.Location = new Point(1347, 0);
+            refreshButton.Margin = new Padding(3, 2, 3, 2);
             refreshButton.Name = "refreshButton";
-            refreshButton.Size = new Size(81, 43);
+            refreshButton.Size = new Size(116, 72);
             refreshButton.TabIndex = 3;
             refreshButton.Text = "Refresh";
             refreshButton.UseVisualStyleBackColor = true;
@@ -160,8 +168,9 @@
             panel1.Controls.Add(refreshButton);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(4, 5, 4, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1024, 43);
+            panel1.Size = new Size(1463, 72);
             panel1.TabIndex = 4;
             // 
             // filePathLabel
@@ -170,9 +179,10 @@
             filePathLabel.BorderStyle = BorderStyle.Fixed3D;
             filePathLabel.Dock = DockStyle.Fill;
             filePathLabel.Location = new Point(0, 0);
+            filePathLabel.Margin = new Padding(4, 0, 4, 0);
             filePathLabel.Name = "filePathLabel";
-            filePathLabel.Padding = new Padding(25, 0, 0, 0);
-            filePathLabel.Size = new Size(868, 43);
+            filePathLabel.Padding = new Padding(36, 0, 0, 0);
+            filePathLabel.Size = new Size(1240, 72);
             filePathLabel.TabIndex = 0;
             filePathLabel.Text = "Please add the filepath to this label";
             filePathLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -180,9 +190,10 @@
             // optionsButton
             // 
             optionsButton.Dock = DockStyle.Right;
-            optionsButton.Location = new Point(868, 0);
+            optionsButton.Location = new Point(1240, 0);
+            optionsButton.Margin = new Padding(4, 5, 4, 5);
             optionsButton.Name = "optionsButton";
-            optionsButton.Size = new Size(75, 43);
+            optionsButton.Size = new Size(107, 72);
             optionsButton.TabIndex = 4;
             optionsButton.Text = "Options";
             optionsButton.UseVisualStyleBackColor = true;
@@ -190,73 +201,136 @@
             // 
             // contextMenuOptions
             // 
+            contextMenuOptions.ImageScalingSize = new Size(24, 24);
             contextMenuOptions.Items.AddRange(new ToolStripItem[] { pluginsToolStripMenuItem, themeToolStripMenuItem });
             contextMenuOptions.Name = "contextMenuOptions";
-            contextMenuOptions.Size = new Size(114, 48);
+            contextMenuOptions.Size = new Size(142, 68);
             // 
             // pluginsToolStripMenuItem
             // 
+            pluginsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenAIPluginToolStripMenuItem });
             pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
-            pluginsToolStripMenuItem.Size = new Size(113, 22);
+            pluginsToolStripMenuItem.Size = new Size(141, 32);
             pluginsToolStripMenuItem.Text = "Plugins";
+            // 
+            // OpenAIPluginToolStripMenuItem
+            // 
+            OpenAIPluginToolStripMenuItem.Name = "OpenAIPluginToolStripMenuItem";
+            OpenAIPluginToolStripMenuItem.Size = new Size(270, 34);
+            OpenAIPluginToolStripMenuItem.Text = "OpenAIPlugin";
+            OpenAIPluginToolStripMenuItem.Click += OpenAIPluginStripMenuItem_Click;
             // 
             // themeToolStripMenuItem
             // 
             themeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { darkToolStripMenuItem, lightToolStripMenuItem, CyberToolStripMenuItem, forestToolStripMenuItem, oceanToolStripMenuItem });
             themeToolStripMenuItem.Name = "themeToolStripMenuItem";
-            themeToolStripMenuItem.Size = new Size(113, 22);
+            themeToolStripMenuItem.Size = new Size(141, 32);
             themeToolStripMenuItem.Text = "Theme";
             // 
             // darkToolStripMenuItem
             // 
             darkToolStripMenuItem.Name = "darkToolStripMenuItem";
-            darkToolStripMenuItem.Size = new Size(108, 22);
+            darkToolStripMenuItem.Size = new Size(270, 34);
             darkToolStripMenuItem.Text = "Dark";
             darkToolStripMenuItem.Click += darkToolStripMenuItem_Click;
             // 
             // lightToolStripMenuItem
             // 
             lightToolStripMenuItem.Name = "lightToolStripMenuItem";
-            lightToolStripMenuItem.Size = new Size(108, 22);
+            lightToolStripMenuItem.Size = new Size(270, 34);
             lightToolStripMenuItem.Text = "Light";
             lightToolStripMenuItem.Click += lightToolStripMenuItem_Click;
             // 
             // CyberToolStripMenuItem
             // 
             CyberToolStripMenuItem.Name = "CyberToolStripMenuItem";
-            CyberToolStripMenuItem.Size = new Size(108, 22);
+            CyberToolStripMenuItem.Size = new Size(270, 34);
             CyberToolStripMenuItem.Text = "Cyber";
             CyberToolStripMenuItem.Click += cyberToolStripMenuItem_Click;
             // 
             // forestToolStripMenuItem
             // 
             forestToolStripMenuItem.Name = "forestToolStripMenuItem";
-            forestToolStripMenuItem.Size = new Size(108, 22);
+            forestToolStripMenuItem.Size = new Size(270, 34);
             forestToolStripMenuItem.Text = "Forest";
             forestToolStripMenuItem.Click += forestToolStripMenuItem_Click;
             // 
             // oceanToolStripMenuItem
             // 
             oceanToolStripMenuItem.Name = "oceanToolStripMenuItem";
-            oceanToolStripMenuItem.Size = new Size(108, 22);
+            oceanToolStripMenuItem.Size = new Size(270, 34);
             oceanToolStripMenuItem.Text = "Ocean";
             oceanToolStripMenuItem.Click += oceanToolStripMenuItem_Click;
+            //
+            // panelChat
+            //
+            panelChat.Dock = DockStyle.Bottom;
+            panelChat.Name = "panelChat";
+            panelChat.Size = new Size(1024, 250);
+            panelChat.TabIndex = 10;
+            panelChat.Visible = false;
+            //
+            // panelInput
+            //
+            panelInput.Dock = DockStyle.Bottom;
+            panelInput.Name = "panelInput";
+            panelInput.Size = new Size(1024, 35);
+            panelInput.TabIndex = 11;
+            //
+            // txtConversation
+            //
+            txtConversation.Dock = DockStyle.Fill;
+            txtConversation.Name = "txtConversation";
+            txtConversation.ReadOnly = true;
+            txtConversation.ScrollBars = RichTextBoxScrollBars.Vertical;
+            txtConversation.TabIndex = 12;
+            txtConversation.Text = "";
+            //
+            // txtInput
+            //
+            txtInput.Dock = DockStyle.Fill;
+            txtInput.Name = "txtInput";
+            txtInput.TabIndex = 13;
+            txtInput.PlaceholderText = "Posez votre question ici...";
+            //
+            // btnAgentAI
+            //
+            btnAgentAI.Dock = DockStyle.Right;
+            btnAgentAI.Name = "btnAgentAI";
+            btnAgentAI.Size = new Size(100, 35);
+            btnAgentAI.TabIndex = 14;
+            btnAgentAI.Text = "Envoyer";
+            btnAgentAI.UseVisualStyleBackColor = true;
+            btnAgentAI.Click += btnAgentAI_Click;
+            //
+            // Assemblage panelInput
+            //
+            panelInput.Controls.Add(txtInput);
+            panelInput.Controls.Add(btnAgentAI);
+            //
+            // Assemblage panelChat
+            //
+            panelChat.Controls.Add(txtConversation);
+            panelChat.Controls.Add(panelInput);
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1024, 499);
+            ClientSize = new Size(1463, 832);
             Controls.Add(filesListView);
             Controls.Add(diskTreeView);
             Controls.Add(panel1);
-            Margin = new Padding(2, 1, 2, 1);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
             contextMenuStrip1.ResumeLayout(false);
             panel1.ResumeLayout(false);
             contextMenuOptions.ResumeLayout(false);
+            panelChat.ResumeLayout(false);
+            panelInput.ResumeLayout(false);
+            panelInput.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -285,5 +359,11 @@
         private ToolStripMenuItem CyberToolStripMenuItem;
         private ToolStripMenuItem forestToolStripMenuItem;
         private ToolStripMenuItem oceanToolStripMenuItem;
+        private ToolStripMenuItem OpenAIPluginToolStripMenuItem;
+        private Panel panelChat;
+        private Panel panelInput;
+        private RichTextBox txtConversation;
+        private TextBox txtInput;
+        private Button btnAgentAI;
     }
 }

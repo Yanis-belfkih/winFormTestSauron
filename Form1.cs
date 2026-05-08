@@ -1,11 +1,13 @@
 using winFormTestSauron.Core;
 using System.IO;
+using winFormTestSauron.Plugins;
 
 namespace winFormTestSauron
 {
     public partial class Form1 : Form
     {
         private FileOperationsManager FileOpManager = new FileOperationsManager();
+        private PluginLoader _loader = new PluginLoader();
 
         public Form1()
         {
@@ -359,5 +361,58 @@ namespace winFormTestSauron
         }
 
         #endregion Themes
+        #region Plugin
+        private void OpenAIPluginStripMenuItem_Click(object sender, EventArgs e) 
+        {
+            try
+            {
+                var existing = _loader.Get("OpenAIPlugin");
+                if (existing == null)
+                {
+                    _loader.Load(new OpenAIPlugin());
+                    MessageBox.Show("OpenAI plugin chargé.", "Plugin", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
+                // Afficher le panneau de chat (le designer a créé panelChat mais ne l'a pas ajouté aux Controls)
+                if (!this.Controls.Contains(panelChat))
+                {
+                    // Ajouter le panneau de chat à la Form
+                    this.Controls.Add(panelChat);
+                }
+                panelChat.Visible = true;
+                panelChat.BringToFront();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur lors du chargement du plugin : " + ex.Message, "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private async void btnAgentAI_Click(object sender, EventArgs e)
+        {
+            string question = txtInput.Text.Trim();
+            if (string.IsNullOrEmpty(question)) return;
+
+            btnAgentAI.Enabled = false;
+            txtInput.Clear();
+
+            var plugin = _loader.Get("OpenAIPlugin");
+            if (plugin == null) return;
+
+            try
+            {
+                string response = await plugin.ExecuteCallAsync(question);
+                txtConversation.AppendText("Vous : " + question + "\r\n");
+                txtConversation.AppendText("Sauron : " + response + "\r\n\r\n");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erreur : " + ex.Message);
+            }
+            finally
+            {
+                btnAgentAI.Enabled = true;
+            }
+        }
+        #endregion
     }
 }
