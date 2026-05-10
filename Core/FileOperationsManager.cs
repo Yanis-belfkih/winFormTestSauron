@@ -123,5 +123,11 @@ namespace winFormTestSauron.Core
                 return false;
             }
         }
+
+        public void OuvrirURL(string url)
+        {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            
+        }
     }
 }

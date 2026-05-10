@@ -2,28 +2,25 @@ using winFormTestSauron.Core;
 using System.IO;
 using winFormTestSauron.Plugins;
 using System.Diagnostics;
+using winFormTestSauron.Interfaces;
 
 namespace winFormTestSauron
 {
     public partial class Form1 : Form
     {
-        private FileOperationsManager FileOpManager = new FileOperationsManager();
-        private PluginLoader _loader = new PluginLoader();
+        private FileOperationsManager _FileOpManager = new FileOperationsManager();
+        private PluginLoader _PluginLoader = new PluginLoader();
+        private IThemeManager _themeManager;
 
         public Form1()
         {
             InitializeComponent();
 
-            //Baseline Theme would be Light
-            IThemeManager themeManager = new Theme(this);
+            _themeManager = new Theme(this);
 
-            themeManager.BackgroundColor = Color.FromArgb(236, 239, 244);
-            themeManager.SurfaceColor = Color.White;
-            themeManager.TextColor = Color.FromArgb(46, 52, 64);
-            themeManager.AccentColor = Color.FromArgb(136, 192, 208);
-            themeManager.FontName = "Segoe UI";
+            DefaultTheme();
 
-            themeManager.ApplyTheme();
+            _themeManager.ApplyTheme();
         }
 
         #region Show Folders/Files
@@ -50,13 +47,13 @@ namespace winFormTestSauron
         {
             diskTreeView.BeginUpdate();
 
-            string[] disks = FileOpManager.GetDisk();
+            string[] disks = _FileOpManager.GetDisk();
 
             foreach (string a in disks)
             {
                 TreeNode _treeNode = new TreeNode(a);
                 diskTreeView.Nodes.Add(_treeNode);
-                DirectoryInfo[] dirs = FileOpManager.AddDirs(a);
+                DirectoryInfo[] dirs = _FileOpManager.AddDirs(a);
 
                 foreach (DirectoryInfo directory in dirs)
                 {
@@ -80,7 +77,7 @@ namespace winFormTestSauron
 
             try
             {
-                Files = FileOpManager.ShowFileNames(info);
+                Files = _FileOpManager.ShowFileNames(info);
             }
             catch (UnauthorizedAccessException)
             {
@@ -89,6 +86,7 @@ namespace winFormTestSauron
             catch (Exception ex)
             {
                 MessageBox.Show("Erreur : " + ex.Message);
+                return;
             }
 
             filesListView.BeginUpdate();
@@ -97,7 +95,7 @@ namespace winFormTestSauron
             {
                 ListViewItem item = new ListViewItem(file.Name);
 
-                string weight = FileOpManager.FileSizeCalculator(file.Length);
+                string weight = _FileOpManager.FileSizeCalculator(file.Length);
 
                 item.SubItems.Add(weight);
                 item.SubItems.Add(file.LastWriteTime.ToShortDateString());
@@ -114,7 +112,7 @@ namespace winFormTestSauron
 
             foreach (TreeNode tree in e.Node.Nodes)
             {
-                DirectoryInfo[] dirs = FileOpManager.AddDirs(tree.FullPath);
+                DirectoryInfo[] dirs = _FileOpManager.AddDirs(tree.FullPath);
 
                 foreach (DirectoryInfo directory in dirs)
                 {
@@ -154,7 +152,7 @@ namespace winFormTestSauron
             {
                 string path = Path.Combine(diskTreeView.SelectedNode.FullPath, filesListView.SelectedItems[0].Text);
                 Console.WriteLine(path);
-                FileOpManager.OpenFile(path);
+                _FileOpManager.OpenFile(path);
 
             }
             catch (Exception ex)
@@ -180,7 +178,7 @@ namespace winFormTestSauron
                 string CurrentPath = diskTreeView.SelectedNode.FullPath;
                 string OldName = filesListView.SelectedItems[0].Text;
                 string OldPath = Path.Combine(CurrentPath, OldName);
-                bool success = FileOpManager.RenameFile(OldPath, e.Label);
+                bool success = _FileOpManager.RenameFile(OldPath, e.Label);
                 if (!success) e.CancelEdit = true;
             }
             catch (Exception ex)
@@ -204,7 +202,7 @@ namespace winFormTestSauron
                     string FileName = filesListView.SelectedItems[0].Text;
                     string path = diskTreeView.SelectedNode.FullPath;
                     string Filepath = Path.Combine(path, FileName);
-                    bool success = FileOpManager.DeleteFile(Filepath);
+                    bool success = _FileOpManager.DeleteFile(Filepath);
                     if (success) filesListView.SelectedItems[0].Remove();
 
                 }
@@ -224,7 +222,7 @@ namespace winFormTestSauron
                 string DefaultFileName = "New File.txt";
                 string path = Path.Combine(diskTreeView.SelectedNode.FullPath, DefaultFileName);
 
-                bool success = FileOpManager.CreateFile(path);
+                bool success = _FileOpManager.CreateFile(path);
                 if (success)
                 {
                     ListViewItem NewFile = new ListViewItem(DefaultFileName);
@@ -249,42 +247,7 @@ namespace winFormTestSauron
         #region Refresh 
         private void refreshButton_Click(object sender, EventArgs e)
         {
-            DirectoryInfo info = new DirectoryInfo(diskTreeView.SelectedNode.FullPath);
-            FileInfo[] Files = { };
-
-            filesListView.Items.Clear();
-
-            try
-            {
-                Files = FileOpManager.ShowFileNames(info);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                MessageBox.Show("Accès refusé à ce dossier.", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erreur lors du rafraîchissement : " + ex.Message);
-                return;
-            }
-
-            filesListView.BeginUpdate();
-
-            foreach (FileInfo file in Files)
-            {
-                ListViewItem item = new ListViewItem(file.Name);
-
-                string weight = FileOpManager.FileSizeCalculator(file.Length);
-
-                item.SubItems.Add(weight);
-                item.SubItems.Add(file.LastWriteTime.ToShortDateString());
-                item.SubItems.Add(file.Extension);
-
-                filesListView.Items.Add(item);
-            }
-            filesListView.EndUpdate();
-
+            treeView1_NodeMouseClick(sender, null);
         }
         #endregion
 
@@ -296,81 +259,83 @@ namespace winFormTestSauron
         #endregion Options
 
         #region Themes
+
+
+        private void DefaultTheme()
+        {
+            _themeManager.BackgroundColor = Color.FromArgb(236, 239, 244);
+            _themeManager.SurfaceColor = Color.White;
+            _themeManager.TextColor = Color.FromArgb(46, 52, 64);
+            _themeManager.AccentColor = Color.FromArgb(136, 192, 208);
+            _themeManager.FontName = "Segoe UI";
+        }
         private void darkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IThemeManager themeManager = new Theme(this);
+            _themeManager.BackgroundColor = Color.FromArgb(30, 30, 30);
+            _themeManager.SurfaceColor = Color.FromArgb(45, 45, 48);
+            _themeManager.TextColor = Color.WhiteSmoke;
+            _themeManager.AccentColor = Color.SteelBlue;
+            _themeManager.FontName = "Segoe UI";
 
-            themeManager.BackgroundColor = Color.FromArgb(30, 30, 30);
-            themeManager.SurfaceColor = Color.FromArgb(45, 45, 48);
-            themeManager.TextColor = Color.WhiteSmoke;
-            themeManager.AccentColor = Color.SteelBlue;
-            themeManager.FontName = "Segoe UI";
-
-            themeManager.ApplyTheme();
+            _themeManager.ApplyTheme();
         }
 
         private void lightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IThemeManager themeManager = new Theme(this);
+            _themeManager.BackgroundColor = Color.FromArgb(236, 239, 244);
+            _themeManager.SurfaceColor = Color.White;
+            _themeManager.TextColor = Color.FromArgb(46, 52, 64);
+            _themeManager.AccentColor = Color.FromArgb(136, 192, 208);
+            _themeManager.FontName = "Segoe UI";
 
-            themeManager.BackgroundColor = Color.FromArgb(236, 239, 244);
-            themeManager.SurfaceColor = Color.White;
-            themeManager.TextColor = Color.FromArgb(46, 52, 64);
-            themeManager.AccentColor = Color.FromArgb(136, 192, 208);
-            themeManager.FontName = "Segoe UI";
-
-            themeManager.ApplyTheme();
+            _themeManager.ApplyTheme();
         }
 
         private void cyberToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IThemeManager themeManager = new Theme(this);
+            _themeManager.BackgroundColor = Color.FromArgb(10, 10, 15);
+            _themeManager.SurfaceColor = Color.FromArgb(20, 20, 30);
+            _themeManager.TextColor = Color.FromArgb(0, 255, 150);
+            _themeManager.AccentColor = Color.MediumPurple;
+            _themeManager.FontName = "Consolas";
 
-            themeManager.BackgroundColor = Color.FromArgb(10, 10, 15);
-            themeManager.SurfaceColor = Color.FromArgb(20, 20, 30);
-            themeManager.TextColor = Color.FromArgb(0, 255, 150);
-            themeManager.AccentColor = Color.MediumPurple;
-            themeManager.FontName = "Consolas";
-
-            themeManager.ApplyTheme();
+            _themeManager.ApplyTheme();
         }
 
         private void forestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IThemeManager themeManager = new Theme(this);
+            _themeManager.BackgroundColor = Color.FromArgb(20, 25, 20);
+            _themeManager.SurfaceColor = Color.FromArgb(35, 45, 35);
+            _themeManager.TextColor = Color.FromArgb(210, 225, 200);
+            _themeManager.AccentColor = Color.OrangeRed;
+            _themeManager.FontName = "Trebuchet MS";
 
-            themeManager.BackgroundColor = Color.FromArgb(20, 25, 20);
-            themeManager.SurfaceColor = Color.FromArgb(35, 45, 35);
-            themeManager.TextColor = Color.FromArgb(210, 225, 200);
-            themeManager.AccentColor = Color.OrangeRed;
-            themeManager.FontName = "Trebuchet MS";
-
-            themeManager.ApplyTheme();
+            _themeManager.ApplyTheme();
         }
 
         private void oceanToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            IThemeManager themeManager = new Theme(this);
+            _themeManager.BackgroundColor = Color.FromArgb(38, 50, 56);
+            _themeManager.SurfaceColor = Color.FromArgb(55, 71, 79);
+            _themeManager.TextColor = Color.White;
+            _themeManager.AccentColor = Color.FromArgb(128, 203, 196);
+            _themeManager.FontName = "Verdana";
 
-            themeManager.BackgroundColor = Color.FromArgb(38, 50, 56);
-            themeManager.SurfaceColor = Color.FromArgb(55, 71, 79);
-            themeManager.TextColor = Color.White;
-            themeManager.AccentColor = Color.FromArgb(128, 203, 196);
-            themeManager.FontName = "Verdana";
-
-            themeManager.ApplyTheme();
+            _themeManager.ApplyTheme();
         }
 
         #endregion Themes
+
         #region Plugin
         private void OpenAIPluginStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
-                var existing = _loader.Get("OpenAIPlugin");
+                IPlugin? existing = _PluginLoader.Get("OpenAIPlugin");
+
                 if (existing == null)
                 {
-                    _loader.Load(new OpenAIPlugin());
+                    _PluginLoader.Load(new OpenAIPlugin());
                     MessageBox.Show("OpenAI plugin chargé.", "Plugin", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
 
@@ -390,20 +355,20 @@ namespace winFormTestSauron
         }
         private async void btnAgentAI_Click(object sender, EventArgs e)
         {
-            string question = txtInput.Text.Trim();
-            if (string.IsNullOrEmpty(question)) return;
-
-            btnAgentAI.Enabled = false;
-            txtInput.Clear();
-
-            var plugin = _loader.Get("OpenAIPlugin");
-            if (plugin == null) return;
-
             try
             {
+                string question = txtInput.Text.Trim();
+                if (string.IsNullOrEmpty(question)) return;
+
+                btnAgentAI.Enabled = false;
+                txtInput.Clear();
+
+                IPlugin? plugin = _PluginLoader.Get("OpenAIPlugin");
+
+                if (plugin == null) return;
                 string response = await plugin.ExecuteCallAsync(question);
 
-                txtConversation.AppendText("Sauron : " + response + "\r\n\r\n");  // retour à la ligne 
+                txtConversation.AppendText("Sauron : " + response + "\r\n\r\n"); 
             }
             catch (Exception ex)
             {
@@ -417,15 +382,10 @@ namespace winFormTestSauron
 
         private void btn_GitHub_Click(object sender, EventArgs e)
         {
-            string _url = "https://github.com/";
-            OuvrirURL(_url);
-        }
-
-        private void OuvrirURL(string url)
-        {
             try
             {
-                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                string _url = "https://github.com/";
+                _FileOpManager.OuvrirURL(_url);
             }
             catch
             {
