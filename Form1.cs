@@ -1,6 +1,7 @@
 using winFormTestSauron.Core;
 using System.IO;
 using winFormTestSauron.Plugins;
+using System.Diagnostics;
 
 namespace winFormTestSauron
 {
@@ -362,7 +363,7 @@ namespace winFormTestSauron
 
         #endregion Themes
         #region Plugin
-        private void OpenAIPluginStripMenuItem_Click(object sender, EventArgs e) 
+        private void OpenAIPluginStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
@@ -401,8 +402,8 @@ namespace winFormTestSauron
             try
             {
                 string response = await plugin.ExecuteCallAsync(question);
-                txtConversation.AppendText("Vous : " + question + "\r\n");
-                txtConversation.AppendText("Sauron : " + response + "\r\n\r\n");
+
+                txtConversation.AppendText("Sauron : " + response + "\r\n\r\n");  // retour à la ligne 
             }
             catch (Exception ex)
             {
@@ -411,6 +412,24 @@ namespace winFormTestSauron
             finally
             {
                 btnAgentAI.Enabled = true;
+            }
+        }
+
+        private void btn_GitHub_Click(object sender, EventArgs e)
+        {
+            string _url = "https://github.com/";
+            OuvrirURL(_url);
+        }
+
+        private void OuvrirURL(string url)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+            }
+            catch
+            {
+                MessageBox.Show("Impossible d'ouvrir le site ");
             }
         }
         #endregion

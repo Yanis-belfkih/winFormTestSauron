@@ -47,6 +47,7 @@
             contextMenuOptions = new ContextMenuStrip(components);
             pluginsToolStripMenuItem = new ToolStripMenuItem();
             OpenAIPluginToolStripMenuItem = new ToolStripMenuItem();
+            GitStripMenu = new ToolStripMenuItem();
             themeToolStripMenuItem = new ToolStripMenuItem();
             darkToolStripMenuItem = new ToolStripMenuItem();
             lightToolStripMenuItem = new ToolStripMenuItem();
@@ -54,8 +55,8 @@
             forestToolStripMenuItem = new ToolStripMenuItem();
             oceanToolStripMenuItem = new ToolStripMenuItem();
             panelChat = new Panel();
-            panelInput = new Panel();
             txtConversation = new RichTextBox();
+            panelInput = new Panel();
             txtInput = new TextBox();
             btnAgentAI = new Button();
             contextMenuStrip1.SuspendLayout();
@@ -208,7 +209,7 @@
             // 
             // pluginsToolStripMenuItem
             // 
-            pluginsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenAIPluginToolStripMenuItem });
+            pluginsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenAIPluginToolStripMenuItem, GitStripMenu });
             pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
             pluginsToolStripMenuItem.Size = new Size(141, 32);
             pluginsToolStripMenuItem.Text = "Plugins";
@@ -220,6 +221,13 @@
             OpenAIPluginToolStripMenuItem.Text = "OpenAIPlugin";
             OpenAIPluginToolStripMenuItem.Click += OpenAIPluginStripMenuItem_Click;
             // 
+            // GitStripMenu
+            // 
+            GitStripMenu.Name = "GitStripMenu";
+            GitStripMenu.Size = new Size(270, 34);
+            GitStripMenu.Text = "GitHub";
+            GitStripMenu.Click += btn_GitHub_Click;
+            // 
             // themeToolStripMenuItem
             // 
             themeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { darkToolStripMenuItem, lightToolStripMenuItem, CyberToolStripMenuItem, forestToolStripMenuItem, oceanToolStripMenuItem });
@@ -230,88 +238,89 @@
             // darkToolStripMenuItem
             // 
             darkToolStripMenuItem.Name = "darkToolStripMenuItem";
-            darkToolStripMenuItem.Size = new Size(270, 34);
+            darkToolStripMenuItem.Size = new Size(164, 34);
             darkToolStripMenuItem.Text = "Dark";
             darkToolStripMenuItem.Click += darkToolStripMenuItem_Click;
             // 
             // lightToolStripMenuItem
             // 
             lightToolStripMenuItem.Name = "lightToolStripMenuItem";
-            lightToolStripMenuItem.Size = new Size(270, 34);
+            lightToolStripMenuItem.Size = new Size(164, 34);
             lightToolStripMenuItem.Text = "Light";
             lightToolStripMenuItem.Click += lightToolStripMenuItem_Click;
             // 
             // CyberToolStripMenuItem
             // 
             CyberToolStripMenuItem.Name = "CyberToolStripMenuItem";
-            CyberToolStripMenuItem.Size = new Size(270, 34);
+            CyberToolStripMenuItem.Size = new Size(164, 34);
             CyberToolStripMenuItem.Text = "Cyber";
             CyberToolStripMenuItem.Click += cyberToolStripMenuItem_Click;
             // 
             // forestToolStripMenuItem
             // 
             forestToolStripMenuItem.Name = "forestToolStripMenuItem";
-            forestToolStripMenuItem.Size = new Size(270, 34);
+            forestToolStripMenuItem.Size = new Size(164, 34);
             forestToolStripMenuItem.Text = "Forest";
             forestToolStripMenuItem.Click += forestToolStripMenuItem_Click;
             // 
             // oceanToolStripMenuItem
             // 
             oceanToolStripMenuItem.Name = "oceanToolStripMenuItem";
-            oceanToolStripMenuItem.Size = new Size(270, 34);
+            oceanToolStripMenuItem.Size = new Size(164, 34);
             oceanToolStripMenuItem.Text = "Ocean";
             oceanToolStripMenuItem.Click += oceanToolStripMenuItem_Click;
-            //
+            // 
             // panelChat
-            //
+            // 
+            panelChat.Controls.Add(txtConversation);
+            panelChat.Controls.Add(panelInput);
             panelChat.Dock = DockStyle.Bottom;
+            panelChat.Location = new Point(0, 0);
             panelChat.Name = "panelChat";
             panelChat.Size = new Size(1024, 250);
             panelChat.TabIndex = 10;
             panelChat.Visible = false;
-            //
-            // panelInput
-            //
-            panelInput.Dock = DockStyle.Bottom;
-            panelInput.Name = "panelInput";
-            panelInput.Size = new Size(1024, 35);
-            panelInput.TabIndex = 11;
-            //
+            // 
             // txtConversation
-            //
+            // 
             txtConversation.Dock = DockStyle.Fill;
+            txtConversation.Location = new Point(0, 0);
             txtConversation.Name = "txtConversation";
             txtConversation.ReadOnly = true;
             txtConversation.ScrollBars = RichTextBoxScrollBars.Vertical;
+            txtConversation.Size = new Size(1024, 215);
             txtConversation.TabIndex = 12;
             txtConversation.Text = "";
-            //
+            // 
+            // panelInput
+            // 
+            panelInput.Controls.Add(txtInput);
+            panelInput.Controls.Add(btnAgentAI);
+            panelInput.Dock = DockStyle.Bottom;
+            panelInput.Location = new Point(0, 215);
+            panelInput.Name = "panelInput";
+            panelInput.Size = new Size(1024, 35);
+            panelInput.TabIndex = 11;
+            // 
             // txtInput
-            //
+            // 
             txtInput.Dock = DockStyle.Fill;
+            txtInput.Location = new Point(0, 0);
             txtInput.Name = "txtInput";
-            txtInput.TabIndex = 13;
             txtInput.PlaceholderText = "Posez votre question ici...";
-            //
+            txtInput.Size = new Size(924, 31);
+            txtInput.TabIndex = 13;
+            // 
             // btnAgentAI
-            //
+            // 
             btnAgentAI.Dock = DockStyle.Right;
+            btnAgentAI.Location = new Point(924, 0);
             btnAgentAI.Name = "btnAgentAI";
             btnAgentAI.Size = new Size(100, 35);
             btnAgentAI.TabIndex = 14;
             btnAgentAI.Text = "Envoyer";
             btnAgentAI.UseVisualStyleBackColor = true;
             btnAgentAI.Click += btnAgentAI_Click;
-            //
-            // Assemblage panelInput
-            //
-            panelInput.Controls.Add(txtInput);
-            panelInput.Controls.Add(btnAgentAI);
-            //
-            // Assemblage panelChat
-            //
-            panelChat.Controls.Add(txtConversation);
-            panelChat.Controls.Add(panelInput);
             // 
             // Form1
             // 
@@ -365,5 +374,6 @@
         private RichTextBox txtConversation;
         private TextBox txtInput;
         private Button btnAgentAI;
+        private ToolStripMenuItem GitStripMenu;
     }
 }

@@ -7,6 +7,8 @@ public class PluginLoader
     // permet d'enregistrer et d'initialiser les plugins
     public void Load(IPlugin plugin)
     {
+        if (plugin == null) return;
+
         plugin.Initialize();
         _plugins.Add(plugin);
     }
@@ -14,7 +16,15 @@ public class PluginLoader
     // permet d'appeler un plugin par son nom
     public IPlugin? Get(string name)
     {
-        return _plugins.FirstOrDefault(p => p.Name == name);
+        if (name == null) return null;
+        foreach (var plugin in _plugins)
+        {
+            if (plugin.Name == name) 
+            {
+                return plugin;
+            }
+        }
+        return null;
     }
 
     // liste les plugins disponibles
