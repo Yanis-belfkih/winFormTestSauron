@@ -69,13 +69,13 @@
             // diskTreeView
             // 
             diskTreeView.Dock = DockStyle.Left;
-            diskTreeView.Location = new Point(0, 72);
-            diskTreeView.Margin = new Padding(3, 2, 3, 2);
+            diskTreeView.Location = new Point(0, 58);
+            diskTreeView.Margin = new Padding(2, 2, 2, 2);
             diskTreeView.Name = "diskTreeView";
-            diskTreeView.Size = new Size(274, 760);
+            diskTreeView.Size = new Size(220, 608);
             diskTreeView.TabIndex = 0;
             diskTreeView.BeforeExpand += treeView1_BeforeExpand;
-            diskTreeView.NodeMouseClick += treeView1_NodeMouseClick;
+            diskTreeView.AfterSelect += diskTreeView_AfterSelect;
             // 
             // filesListView
             // 
@@ -83,10 +83,10 @@
             filesListView.ContextMenuStrip = contextMenuStrip1;
             filesListView.Dock = DockStyle.Fill;
             filesListView.LabelEdit = true;
-            filesListView.Location = new Point(274, 72);
-            filesListView.Margin = new Padding(3, 2, 3, 2);
+            filesListView.Location = new Point(220, 58);
+            filesListView.Margin = new Padding(2, 2, 2, 2);
             filesListView.Name = "filesListView";
-            filesListView.Size = new Size(1189, 760);
+            filesListView.Size = new Size(950, 608);
             filesListView.TabIndex = 1;
             filesListView.UseCompatibleStateImageBehavior = false;
             filesListView.View = View.Details;
@@ -120,43 +120,43 @@
             contextMenuStrip1.ImageScalingSize = new Size(32, 32);
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { Open, Rename, Delete, create });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(148, 132);
+            contextMenuStrip1.Size = new Size(133, 100);
             // 
             // Open
             // 
             Open.Name = "Open";
-            Open.Size = new Size(147, 32);
+            Open.Size = new Size(132, 24);
             Open.Text = "Open";
             Open.Click += Open_Click;
             // 
             // Rename
             // 
             Rename.Name = "Rename";
-            Rename.Size = new Size(147, 32);
+            Rename.Size = new Size(132, 24);
             Rename.Text = "Rename";
             Rename.Click += Rename_Click;
             // 
             // Delete
             // 
             Delete.Name = "Delete";
-            Delete.Size = new Size(147, 32);
+            Delete.Size = new Size(132, 24);
             Delete.Text = "Delete";
             Delete.Click += Delete_Click;
             // 
             // create
             // 
             create.Name = "create";
-            create.Size = new Size(147, 32);
+            create.Size = new Size(132, 24);
             create.Text = "Create ";
             create.Click += create_Click;
             // 
             // refreshButton
             // 
             refreshButton.Dock = DockStyle.Right;
-            refreshButton.Location = new Point(1347, 0);
-            refreshButton.Margin = new Padding(3, 2, 3, 2);
+            refreshButton.Location = new Point(1077, 0);
+            refreshButton.Margin = new Padding(2, 2, 2, 2);
             refreshButton.Name = "refreshButton";
-            refreshButton.Size = new Size(116, 72);
+            refreshButton.Size = new Size(93, 58);
             refreshButton.TabIndex = 3;
             refreshButton.Text = "Refresh";
             refreshButton.UseVisualStyleBackColor = true;
@@ -169,9 +169,9 @@
             panel1.Controls.Add(refreshButton);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(4, 5, 4, 5);
+            panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1463, 72);
+            panel1.Size = new Size(1170, 58);
             panel1.TabIndex = 4;
             // 
             // filePathLabel
@@ -180,10 +180,9 @@
             filePathLabel.BorderStyle = BorderStyle.Fixed3D;
             filePathLabel.Dock = DockStyle.Fill;
             filePathLabel.Location = new Point(0, 0);
-            filePathLabel.Margin = new Padding(4, 0, 4, 0);
             filePathLabel.Name = "filePathLabel";
-            filePathLabel.Padding = new Padding(36, 0, 0, 0);
-            filePathLabel.Size = new Size(1240, 72);
+            filePathLabel.Padding = new Padding(29, 0, 0, 0);
+            filePathLabel.Size = new Size(991, 58);
             filePathLabel.TabIndex = 0;
             filePathLabel.Text = "Please add the filepath to this label";
             filePathLabel.TextAlign = ContentAlignment.MiddleLeft;
@@ -191,10 +190,10 @@
             // optionsButton
             // 
             optionsButton.Dock = DockStyle.Right;
-            optionsButton.Location = new Point(1240, 0);
-            optionsButton.Margin = new Padding(4, 5, 4, 5);
+            optionsButton.Location = new Point(991, 0);
+            optionsButton.Margin = new Padding(3, 4, 3, 4);
             optionsButton.Name = "optionsButton";
-            optionsButton.Size = new Size(107, 72);
+            optionsButton.Size = new Size(86, 58);
             optionsButton.TabIndex = 4;
             optionsButton.Text = "Options";
             optionsButton.UseVisualStyleBackColor = true;
@@ -205,26 +204,26 @@
             contextMenuOptions.ImageScalingSize = new Size(24, 24);
             contextMenuOptions.Items.AddRange(new ToolStripItem[] { pluginsToolStripMenuItem, themeToolStripMenuItem });
             contextMenuOptions.Name = "contextMenuOptions";
-            contextMenuOptions.Size = new Size(142, 68);
+            contextMenuOptions.Size = new Size(126, 52);
             // 
             // pluginsToolStripMenuItem
             // 
             pluginsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { OpenAIPluginToolStripMenuItem, GitStripMenu });
             pluginsToolStripMenuItem.Name = "pluginsToolStripMenuItem";
-            pluginsToolStripMenuItem.Size = new Size(141, 32);
+            pluginsToolStripMenuItem.Size = new Size(125, 24);
             pluginsToolStripMenuItem.Text = "Plugins";
             // 
             // OpenAIPluginToolStripMenuItem
             // 
             OpenAIPluginToolStripMenuItem.Name = "OpenAIPluginToolStripMenuItem";
-            OpenAIPluginToolStripMenuItem.Size = new Size(270, 34);
+            OpenAIPluginToolStripMenuItem.Size = new Size(183, 26);
             OpenAIPluginToolStripMenuItem.Text = "OpenAIPlugin";
             OpenAIPluginToolStripMenuItem.Click += OpenAIPluginStripMenuItem_Click;
             // 
             // GitStripMenu
             // 
             GitStripMenu.Name = "GitStripMenu";
-            GitStripMenu.Size = new Size(270, 34);
+            GitStripMenu.Size = new Size(183, 26);
             GitStripMenu.Text = "GitHub";
             GitStripMenu.Click += btn_GitHub_Click;
             // 
@@ -232,41 +231,41 @@
             // 
             themeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { darkToolStripMenuItem, lightToolStripMenuItem, CyberToolStripMenuItem, forestToolStripMenuItem, oceanToolStripMenuItem });
             themeToolStripMenuItem.Name = "themeToolStripMenuItem";
-            themeToolStripMenuItem.Size = new Size(141, 32);
+            themeToolStripMenuItem.Size = new Size(125, 24);
             themeToolStripMenuItem.Text = "Theme";
             // 
             // darkToolStripMenuItem
             // 
             darkToolStripMenuItem.Name = "darkToolStripMenuItem";
-            darkToolStripMenuItem.Size = new Size(164, 34);
+            darkToolStripMenuItem.Size = new Size(134, 26);
             darkToolStripMenuItem.Text = "Dark";
             darkToolStripMenuItem.Click += darkToolStripMenuItem_Click;
             // 
             // lightToolStripMenuItem
             // 
             lightToolStripMenuItem.Name = "lightToolStripMenuItem";
-            lightToolStripMenuItem.Size = new Size(164, 34);
+            lightToolStripMenuItem.Size = new Size(134, 26);
             lightToolStripMenuItem.Text = "Light";
             lightToolStripMenuItem.Click += lightToolStripMenuItem_Click;
             // 
             // CyberToolStripMenuItem
             // 
             CyberToolStripMenuItem.Name = "CyberToolStripMenuItem";
-            CyberToolStripMenuItem.Size = new Size(164, 34);
+            CyberToolStripMenuItem.Size = new Size(134, 26);
             CyberToolStripMenuItem.Text = "Cyber";
             CyberToolStripMenuItem.Click += cyberToolStripMenuItem_Click;
             // 
             // forestToolStripMenuItem
             // 
             forestToolStripMenuItem.Name = "forestToolStripMenuItem";
-            forestToolStripMenuItem.Size = new Size(164, 34);
+            forestToolStripMenuItem.Size = new Size(134, 26);
             forestToolStripMenuItem.Text = "Forest";
             forestToolStripMenuItem.Click += forestToolStripMenuItem_Click;
             // 
             // oceanToolStripMenuItem
             // 
             oceanToolStripMenuItem.Name = "oceanToolStripMenuItem";
-            oceanToolStripMenuItem.Size = new Size(164, 34);
+            oceanToolStripMenuItem.Size = new Size(134, 26);
             oceanToolStripMenuItem.Text = "Ocean";
             oceanToolStripMenuItem.Click += oceanToolStripMenuItem_Click;
             // 
@@ -308,7 +307,7 @@
             txtInput.Location = new Point(0, 0);
             txtInput.Name = "txtInput";
             txtInput.PlaceholderText = "Posez votre question ici...";
-            txtInput.Size = new Size(924, 31);
+            txtInput.Size = new Size(924, 27);
             txtInput.TabIndex = 13;
             // 
             // btnAgentAI
@@ -324,13 +323,13 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1463, 832);
+            ClientSize = new Size(1170, 666);
             Controls.Add(filesListView);
             Controls.Add(diskTreeView);
             Controls.Add(panel1);
-            Margin = new Padding(3, 2, 3, 2);
+            Margin = new Padding(2, 2, 2, 2);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;

@@ -66,7 +66,7 @@ namespace winFormTestSauron
             AdjustColumnSizes();
         }
 
-        public void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        private void diskTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
             DirectoryInfo info = new DirectoryInfo(diskTreeView.SelectedNode.FullPath);
             FileInfo[] Files = { };
@@ -104,6 +104,7 @@ namespace winFormTestSauron
                 filesListView.Items.Add(item);
             }
             filesListView.EndUpdate();
+            filePathLabel.Text = diskTreeView.SelectedNode.FullPath;
         }
 
         private void treeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
@@ -247,7 +248,7 @@ namespace winFormTestSauron
         #region Refresh 
         private void refreshButton_Click(object sender, EventArgs e)
         {
-            treeView1_NodeMouseClick(sender, null);
+            diskTreeView_AfterSelect(sender, null);
         }
         #endregion
 
@@ -368,7 +369,7 @@ namespace winFormTestSauron
                 if (plugin == null) return;
                 string response = await plugin.ExecuteCallAsync(question);
 
-                txtConversation.AppendText("Sauron : " + response + "\r\n\r\n"); 
+                txtConversation.AppendText("Sauron : " + response + "\r\n\r\n");
             }
             catch (Exception ex)
             {
@@ -393,5 +394,6 @@ namespace winFormTestSauron
             }
         }
         #endregion
+
     }
 }
